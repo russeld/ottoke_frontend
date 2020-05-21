@@ -43,12 +43,12 @@ export async function createSheet ({ commit, state }, text) {
 }
 
 export async function deleteSheet ({ commit, state }, sheet) {
-  await axios.delete(`clients/${state.uuid}/sheets/${state.sheet.id}/`)
+  await axios.delete(`clients/${state.uuid}/sheets/${state.sheet.id}`)
   commit('removeSheet', sheet)
 }
 
 export async function updateSheet ({ commit, state }, sheet) {
-  const response = await axios.put(`clients/${state.uuid}/sheets/${state.sheet.id}/`, sheet)
+  const response = await axios.put(`clients/${state.uuid}/sheets/${state.sheet.id}`, sheet)
   commit('updateSheet', response.data)
 }
 
