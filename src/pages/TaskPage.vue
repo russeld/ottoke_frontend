@@ -7,15 +7,21 @@
 
       <todo-input :text="text" v-on:submit="onSubmit" v-on:input="onInput"/>
 
-      <q-list separator bordered v-if="hasTodos">
+      <draggable
+        v-bind="dragOptions"
+        v-model="tasks"
+        class="task-list"
+        v-if="hasTodos"
+        @change="onMoveCallback">
         <todo-item v-for="task in tasks" :key="task.id" :todo="task" />
-      </q-list>
+      </draggable>
     </div>
   </q-page>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import draggable from 'vuedraggable'
 import TodoItem from '@/components/todos/TodoItem'
 import TodoInput from '@/components/todos/TodoInput'
 
@@ -39,10 +45,19 @@ export default {
     }),
     hasTodos () {
       return (this.tasks.length > 0)
+    },
+    dragOptions () {
+      return {
+        animation: 200,
+        group: 'description',
+        disabled: false,
+        ghostClass: 'ghost'
+      }
     }
   },
 
   components: {
+    draggable,
     TodoInput,
     TodoItem
   },
@@ -56,7 +71,8 @@ export default {
   methods: {
     ...mapActions({
       getTasks: 'client/getTasks',
-      createTask: 'client/createTask'
+      createTask: 'client/createTask',
+      swap: 'client/swap'
     }),
     onSubmit (text) {
       if (!text) {
@@ -69,6 +85,12 @@ export default {
     },
     onInput (text) {
       this.text = text
+    },
+    onMoveCallback (evt) {
+      const payload = {
+        todos: this.tasks.map(t => t.id)
+      }
+      this.swap(payload)
     }
   },
 

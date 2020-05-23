@@ -116,3 +116,8 @@ export async function updateTodo ({ commit, state }, todo) {
   const response = await axios.put(`clients/${state.uuid}/todos/${todo.id}`, todo)
   commit('updateTodo', response.data)
 }
+
+export async function swap ({ commit, state }, todos) {
+  const response = await axios.post('todos/swap', todos)
+  return response
+}

@@ -103,8 +103,8 @@ module.exports = function (ctx) {
     },
 
     // animations: 'all', // --- includes all animations
-    // https://quasar.dev/options/animations
-    animations: [],
+    // https://quasar.dev/options/a nimations
+    animations: 'all',
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
