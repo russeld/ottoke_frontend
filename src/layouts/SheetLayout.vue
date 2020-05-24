@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpr fFf">
+  <q-layout view="hHh lpR fFf">
     <app-header />
 
     <sheet-list-drawer />

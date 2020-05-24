@@ -81,6 +81,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { date } from 'quasar'
 import TodoItem from '@/components/todos/TodoItem'
 import moment from 'moment'
 
@@ -170,20 +171,12 @@ export default {
       })
     },
     onClickAddToMyDay () {
-      this.addToMyDay(this.todo.id)
-        .then(() => {
-          if (this.$route.name === 'myday-page') {
-            this.getMyDay()
-          }
-        })
+      const todo = { ...this.todo, my_day: date.formatDate(Date.now(), 'YYYY-MM-DD') }
+      this.updateTodo(todo)
     },
     clickRemoveFromMyDay () {
-      this.removeFromMyDay(this.todo.id)
-        .then(() => {
-          if (this.$route.name === 'myday-page') {
-            this.getMyDay()
-          }
-        })
+      const todo = { ...this.todo, my_day: null }
+      this.updateTodo(todo)
     }
   },
 

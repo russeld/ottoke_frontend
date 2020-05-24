@@ -5,7 +5,7 @@
         <p class="text-h5 q-ma-none text-blue-7">Tasks</p>
       </div>
 
-      <todo-input :text="text" v-on:submit="onSubmit" v-on:input="onInput"/>
+      <todo-input :text="todo.title" v-on:submit="onSubmit" v-on:input="onInput"/>
 
       <draggable
         v-bind="dragOptions"
@@ -30,7 +30,9 @@ export default {
 
   data () {
     return {
-      text: null,
+      todo: {
+        title: null
+      },
       tasks: [],
       borderless: true,
       query: {
@@ -70,8 +72,8 @@ export default {
 
   methods: {
     ...mapActions({
-      getTasks: 'client/getTasks',
-      createTask: 'client/createTask',
+      getTodos: 'client/getTodos',
+      createTodo: 'client/createTodo',
       swap: 'client/swap'
     }),
     onSubmit (text) {
@@ -79,12 +81,12 @@ export default {
         return
       }
 
-      this.createTask(text)
-        .then(response => { this.text = '' })
-        .then(() => this.getTasks())
+      this.createTodo(this.todo)
+        .then(response => { this.todo.title = '' })
+        .then(() => this.getTodos())
     },
     onInput (text) {
-      this.text = text
+      this.todo.title = text
     },
     onMoveCallback (evt) {
       const payload = {
@@ -95,7 +97,7 @@ export default {
   },
 
   mounted () {
-    this.getTasks()
+    this.getTodos()
   }
 }
 </script>

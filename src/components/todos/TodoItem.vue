@@ -56,7 +56,7 @@ export default {
       getSheets: 'client/getSheets'
     }),
     updateInput () {
-      const todo = { ...this.todo, status: this.val ? 1 : 0 }
+      const todo = { ...this.todo, status: this.val ? 1 : 0, priority: 0 }
       this.updateTodo(todo)
     },
     onClick () {

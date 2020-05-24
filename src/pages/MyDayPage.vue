@@ -6,7 +6,7 @@
         <p class="text-caption text-blue-4">{{ today }}</p>
       </div>
 
-      <todo-input :text="text" v-on:submit="onSubmit" v-on:input="onInput" />
+      <todo-input :text="todo.title" v-on:submit="onSubmit" v-on:input="onInput" />
 
       <q-list separator bordered v-if="hasTodos">
         <todo-item v-for="task in tasks" :key="task.id" :todo="task" />
@@ -26,7 +26,10 @@ export default {
 
   data () {
     return {
-      text: null,
+      todo: {
+        title: null,
+        my_day: date.formatDate(Date.now(), 'YYYY-MM-DD')
+      },
       tasks: [],
       borderless: true,
       query: {
@@ -49,7 +52,7 @@ export default {
 
   watch: {
     todos (list) {
-      this.tasks = list
+      this.tasks = list.filter(i => i.is_myday === true)
     }
   },
 
@@ -60,25 +63,32 @@ export default {
 
   methods: {
     ...mapActions({
-      getMyDay: 'client/getMyDay',
-      createMyDay: 'client/createMyDay'
+      getTodos: 'client/getTodos',
+      createTodo: 'client/createTodo'
     }),
     onSubmit (text) {
       if (!text) {
         return
       }
-
-      this.createMyDay(text)
-        .then(response => { this.text = '' })
-        .then(() => this.getMyDay())
+      this.todo.my_day = date.formatDate(Date.now(), 'YYYY-MM-DD')
+      this.createTodo(this.todo)
+        .then(response => {
+          this.todo.title = ''
+        })
     },
     onInput (text) {
-      this.text = text
+      this.todo.title = text
+    },
+    loadTodos () {
+      const query = {
+        my_day: date.formatDate(Date.now(), 'YYYY-MM-DD')
+      }
+      this.getTodos(query)
     }
   },
 
   mounted () {
-    this.getMyDay()
+    this.loadTodos()
   }
 }
 </script>

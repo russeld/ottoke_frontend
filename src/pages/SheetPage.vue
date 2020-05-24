@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <todo-input :text="todo" v-on:submit="onSubmit" v-on:input="onInput" />
+      <todo-input :text="todo.title" v-on:submit="onSubmit" v-on:input="onInput" />
 
       <q-list separator bordered v-if="hasTodos">
         <todo-item v-for="task in tasks" :key="task.id" :todo="task" />
@@ -47,7 +47,11 @@ export default {
     return {
       text: null,
       tasks: [],
-      todo: '',
+      todo: {
+        title: null,
+        sheet_id: null
+      },
+      sheetId: null,
       borderless: true,
       query: {
         search: ''
@@ -60,9 +64,6 @@ export default {
       todos: s => s.client.todos,
       sheet: s => s.client.sheet
     }),
-    sheetId () {
-      return this.$route.params.id
-    },
     hasTodos () {
       return (this.tasks.length > 0)
     }
@@ -76,9 +77,9 @@ export default {
   watch: {
     '$route.params.id': {
       handler: function (id) {
-        this.getSheet(this.sheetId)
-          .then(() => { this.getTodos(this.query) })
-          .then(() => { this.$store.commit('client/setTodo', null) })
+        this.todo.sheet_id = id
+        this.sheetId = id
+        this.loadSheet()
       },
       deep: true,
       immediate: true
@@ -89,7 +90,7 @@ export default {
       }
     },
     'query.search' () {
-      this.getTodos(this.query)
+      this.loadTodos()
     },
     todos (list) {
       this.tasks = list
@@ -141,19 +142,26 @@ export default {
         return
       }
 
-      this.createTodo(text)
-        .then(response => { this.todo = '' })
+      this.createTodo(this.todo)
+        .then(response => { this.todo.title = '' })
         .then(() => this.getSheets())
     },
     onInput (text) {
-      this.todo = text
+      this.todo.title = text
+    },
+    loadTodos () {
+      const query = { ...this.query, sheet_id: this.sheetId }
+      this.getTodos(query)
+    },
+    loadSheet () {
+      this.getSheet(this.sheetId)
+        .then(() => { this.loadTodos() })
+        .then(() => { this.$store.commit('client/setTodo', null) })
     }
   },
 
   mounted () {
-    this.getSheet(this.sheetId)
-      .then(() => { this.getTodos(this.query) })
-      .then(() => { this.$store.commit('client/setTodo', null) })
+    this.loadSheet()
   }
 }
 </script>
