@@ -29,8 +29,8 @@
               </q-item-section>
               <q-item-section v-if="!todo.due_date" @click="$refs.qDateProxy.show()">Set Due Date</q-item-section>
               <q-item-section
-                v-else-if="todo.status !== 1"
-                :class="{'text-primary': (!todo.is_overdue && todo.status !== 1), 'text-warning': (todo.is_overdue && todo.status !== 1)}">
+                v-else-if="!todo.status"
+                :class="{'text-primary': (!todo.is_overdue && !todo.status), 'text-warning': (todo.is_overdue && !todo.status)}">
                   {{ todo.is_overdue ? 'Overdue since' : 'Due on' }} {{ formatDueDate() }}
               </q-item-section>
               <q-item-section v-else>

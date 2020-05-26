@@ -4,9 +4,9 @@
       <q-checkbox v-model="val" :val="todo.id" color="green" @input="updateInput" />
     </q-item-section>
     <q-item-section>
-      <q-item-label :class="{ 'text-strike': todo.status === 1 }">{{ todo.title }}</q-item-label>
+      <q-item-label :class="{ 'text-strike': todo.status }">{{ todo.title }}</q-item-label>
       <q-item-label caption v-if="showDueDate">
-        <span v-if="todo.due_date" :class="{'text-primary': (!todo.is_overdue && todo.status !== 1), 'text-warning': (todo.is_overdue && todo.status !== 1)}" class="flex align-center q-gutter-x-sm">
+        <span v-if="todo.due_date" :class="{'text-primary': (!todo.is_overdue && !todo.status), 'text-warning': (todo.is_overdue && !todo.status)}" class="flex align-center q-gutter-x-sm">
           <q-icon name="calendar_today" />
           <span>Due on {{ formatDueDate() }}</span>
         </span>
@@ -46,7 +46,7 @@ export default {
 
   watch: {
     todo (todo) {
-      this.val = todo.status === 1
+      this.val = todo.status
     }
   },
 
@@ -68,7 +68,7 @@ export default {
   },
 
   mounted () {
-    this.val = this.todo.status === 1
+    this.val = this.todo.status
   }
 }
 </script>

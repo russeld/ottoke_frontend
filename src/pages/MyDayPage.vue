@@ -8,18 +8,15 @@
 
       <todo-input :text="todo.title" v-on:submit="onSubmit" v-on:input="onInput" />
 
-      <q-list separator bordered v-if="hasTodos">
-        <todo-item v-for="task in tasks" :key="task.id" :todo="task" />
-      </q-list>
+      <todo-list :completed="completed" :ongoing="ongoing" :moveCallback="onMoveCallback"/>
     </div>
   </q-page>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import { TodoMixin } from '@/mixins/todos'
 import { date } from 'quasar'
-import TodoItem from '@/components/todos/TodoItem'
-import TodoInput from '@/components/todos/TodoInput'
 
 export default {
   name: 'myday-page',
@@ -38,6 +35,8 @@ export default {
     }
   },
 
+  mixins: [TodoMixin],
+
   computed: {
     ...mapState({
       todos: s => s.client.todos
@@ -54,11 +53,6 @@ export default {
     todos (list) {
       this.tasks = list.filter(i => i.is_myday === true)
     }
-  },
-
-  components: {
-    TodoInput,
-    TodoItem
   },
 
   methods: {

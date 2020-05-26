@@ -1,54 +1,72 @@
 <template>
-  <q-card-section class="q-pa-none">
-    <q-list separator bordered>
-      <q-item
-        clickable
-        class="q-pa-md text-weight-medium bg-white"
-        v-for="todo in todos"
-        :key="todo.id">
-          <q-item-section side>
-            <q-radio v-model="selectedTodo" :val="todo.id"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>{{ todo.title }}</q-item-label>
-          </q-item-section>
-      </q-item>
+  <div class="q-gutter-y-md">
+    <draggable
+      v-bind="dragOptions"
+      v-model="tasks"
+      class="task-list"
+      v-if="ongoing.length > 0"
+      @change="moveCallback">
+      <todo-item v-for="task in ongoing" :key="task.id" :todo="task" />
+    </draggable>
+
+    <q-list bordered :disabled="!completed.length">
+      <q-expansion-item
+        expand-icon-toggle
+        icon="check"
+        label="Completed"
+      >
+        <q-list separator>
+          <todo-item v-for="task in completed" :key="task.id" :todo="task" />
+        </q-list>
+      </q-expansion-item>
     </q-list>
-  </q-card-section>
+  </div>
 </template>
 
 <script>
-import moment from 'moment'
-import { mapActions } from 'vuex'
+import TodoItem from '@/components/todos/TodoItem'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'todo-list',
 
-  props: {
-    todos: {
-      type: Array
-    }
-  },
-
   data () {
     return {
-      selectedTodo: null
+      tasks: []
     }
   },
 
-  methods: {
-    ...mapActions({
-      updateTodo: 'client/updateTodo',
-      deleteTodo: 'client/deleteTodo'
-    }),
-    createdFromNow (date) {
-      return moment(date).fromNow()
+  props: {
+    ongoing: {
+      type: Array
     },
-    onDelete (todo) {
-      this.deleteTodo(todo)
+    completed: {
+      type: Array
     },
-    onClickDone (todo) {
-      this.updateTodo({ ...todo, status: !todo.status })
+    moveCallback: {
+      type: Function
+    }
+  },
+
+  watch: {
+    ongoing (ongoing) {
+      this.tasks = ongoing
+    }
+  },
+
+  components: {
+    draggable,
+    TodoItem
+  },
+
+  computed: {
+    dragOptions () {
+      return {
+        animation: 200,
+        group: 'description',
+        disabled: false,
+        ghostClass: 'ghost'
+      }
     }
   }
 }

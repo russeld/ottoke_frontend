@@ -7,47 +7,26 @@
 
       <todo-input :text="todo.title" v-on:submit="onSubmit" v-on:input="onInput"/>
 
-      <draggable
-        v-bind="dragOptions"
-        v-model="tasks"
-        class="task-list"
-        v-if="hasTodos"
-        @change="onMoveCallback">
-        <todo-item v-for="task in tasks" :key="task.id" :todo="task" />
-      </draggable>
+      <todo-list :completed="completed" :ongoing="ongoing" :moveCallback="onMoveCallback"/>
     </div>
   </q-page>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
-import draggable from 'vuedraggable'
-import TodoItem from '@/components/todos/TodoItem'
-import TodoInput from '@/components/todos/TodoInput'
+import { TodoMixin } from '@/mixins/todos'
 
 export default {
   name: 'task-page',
 
+  mixins: [TodoMixin],
+
   data () {
     return {
-      todo: {
-        title: null
-      },
-      tasks: [],
-      borderless: true,
-      query: {
-        search: ''
-      }
+      visible: false
     }
   },
 
   computed: {
-    ...mapState({
-      todos: s => s.client.todos
-    }),
-    hasTodos () {
-      return (this.tasks.length > 0)
-    },
     dragOptions () {
       return {
         animation: 200,
@@ -55,44 +34,6 @@ export default {
         disabled: false,
         ghostClass: 'ghost'
       }
-    }
-  },
-
-  components: {
-    draggable,
-    TodoInput,
-    TodoItem
-  },
-
-  watch: {
-    todos (list) {
-      this.tasks = list
-    }
-  },
-
-  methods: {
-    ...mapActions({
-      getTodos: 'client/getTodos',
-      createTodo: 'client/createTodo',
-      swap: 'client/swap'
-    }),
-    onSubmit (text) {
-      if (!text) {
-        return
-      }
-
-      this.createTodo(this.todo)
-        .then(response => { this.todo.title = '' })
-        .then(() => this.getTodos())
-    },
-    onInput (text) {
-      this.todo.title = text
-    },
-    onMoveCallback (evt) {
-      const payload = {
-        todos: this.tasks.map(t => t.id)
-      }
-      this.swap(payload)
     }
   },
 
