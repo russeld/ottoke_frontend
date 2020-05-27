@@ -16,17 +16,17 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable :to="{ name: 'myday-page' }">
+        <q-item clickable :to="{ name: 'myday-page' }" active-class="bg-orange-2 text-orange-8">
           <q-item-section class="text-capitalize">Today</q-item-section>
           <q-item-section avatar>
-            <q-icon flat name="wb_sunny"/>
+            <q-icon flat name="wb_sunny" color="orange"/>
           </q-item-section>
         </q-item>
 
-        <q-item clickable :to="{ name: 'task-page' }">
+        <q-item clickable :to="{ name: 'task-page' }" active-class="bg-green-2 text-green-8">
           <q-item-section class="text-capitalize">Tasks</q-item-section>
           <q-item-section avatar>
-            <q-icon flat name="list"/>
+            <q-icon flat name="view_list" color="green" />
           </q-item-section>
         </q-item>
 
@@ -46,6 +46,7 @@
             </div>
             <div class="text-capitalize" v-else>
               {{ sheet.name.substring(0, 2) }}
+              <q-badge transparent align="middle" color="blue-10" floating>{{ sheet.ongoing ? sheet.ongoing : '' }}</q-badge>
             </div>
           </q-item-section>
         </q-item>
