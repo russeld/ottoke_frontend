@@ -6,15 +6,27 @@
 
     <q-item-section>
       <q-item-label :class="{ 'text-strike': todo.status }">{{ todo.title }}</q-item-label>
-      <q-item-label caption v-if="showDueDate">
-        <span v-if="todo.due_date" :class="{'text-primary': (!todo.is_overdue && !todo.status), 'text-warning': (todo.is_overdue && !todo.status)}" class="flex align-center q-gutter-x-sm">
+
+      <q-item-label caption class="flex content-center q-gutter-x-sm">
+        <span class="text-info" v-if="showSheetName">
+          <q-icon name="list" />
+        </span>
+        <span v-if="showSheetName">{{ todo.sheet_name }}</span>
+
+        <span
+          v-if="todo.due_date"
+          :class="{'text-primary': (!todo.is_overdue && !todo.status), 'text-warning': (todo.is_overdue && !todo.status)}"
+          class="">
           <q-icon name="calendar_today" />
-          <span>Due on {{ formatDueDate() }}</span>
         </span>
+        <span v-if="todo.due_date">Due on {{ formatDueDate() }}</span>
+
         <span v-if="todo.is_myday" class="text-green-5">
-          <q-icon flat name="wb_sunny"/> My Day
+          <q-icon flat name="wb_sunny"/>
         </span>
+        <span v-if="todo.is_myday">My Day</span>
       </q-item-label>
+
     </q-item-section>
 
     <q-item-section side>
@@ -46,6 +58,12 @@ export default {
     clickable: {
       type: Boolean,
       default: true
+    }
+  },
+
+  computed: {
+    showSheetName () {
+      return this.$route.name === 'myday-page'
     }
   },
 
