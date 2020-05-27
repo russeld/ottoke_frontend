@@ -28,10 +28,7 @@ export default {
         my_day: date.formatDate(Date.now(), 'YYYY-MM-DD')
       },
       tasks: [],
-      borderless: true,
-      query: {
-        search: ''
-      }
+      borderless: true
     }
   },
 
@@ -78,6 +75,7 @@ export default {
         my_day: date.formatDate(Date.now(), 'YYYY-MM-DD')
       }
       this.getTodos(query)
+        .then(() => { this.$store.commit('client/setTodo', null) })
     }
   },
 

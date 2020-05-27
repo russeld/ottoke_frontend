@@ -34,6 +34,14 @@ export const TodoMixin = {
     }),
     hasTodos () {
       return (this.ongoing.length > 0)
+    },
+    dragOptions () {
+      return {
+        animation: 200,
+        group: 'description',
+        disabled: false,
+        ghostClass: 'ghost'
+      }
     }
   },
 

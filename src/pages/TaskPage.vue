@@ -26,19 +26,9 @@ export default {
     }
   },
 
-  computed: {
-    dragOptions () {
-      return {
-        animation: 200,
-        group: 'description',
-        disabled: false,
-        ghostClass: 'ghost'
-      }
-    }
-  },
-
   mounted () {
-    this.getTodos()
+    this.getTodos(this.query)
+      .then(() => { this.$store.commit('client/setTodo', null) })
   }
 }
 </script>

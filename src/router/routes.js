@@ -16,7 +16,7 @@ const routes = [
         component: () => import('pages/TaskPage.vue')
       },
       {
-        path: '/myday',
+        path: '/today',
         name: 'myday-page',
         component: () => import('pages/MyDayPage.vue')
       }

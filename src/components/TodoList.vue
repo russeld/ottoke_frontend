@@ -5,8 +5,13 @@
       v-model="tasks"
       class="task-list"
       v-if="ongoing.length > 0"
+      handle=".handle"
       @change="moveCallback">
-      <todo-item v-for="task in ongoing" :key="task.id" :todo="task" />
+      <todo-item v-for="task in ongoing" :key="task.id" :todo="task">
+        <template v-slot:handle>
+          <q-icon class="fa fa-align-justify handle" name="drag_handle" />
+        </template>
+      </todo-item>
     </draggable>
 
     <q-list bordered :disabled="!completed.length">

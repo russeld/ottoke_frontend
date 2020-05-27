@@ -3,6 +3,7 @@
     <q-item-section side>
       <q-checkbox v-model="val" :val="todo.id" color="green" @input="updateInput" />
     </q-item-section>
+
     <q-item-section>
       <q-item-label :class="{ 'text-strike': todo.status }">{{ todo.title }}</q-item-label>
       <q-item-label caption v-if="showDueDate">
@@ -14,6 +15,10 @@
           <q-icon flat name="wb_sunny"/> My Day
         </span>
       </q-item-label>
+    </q-item-section>
+
+    <q-item-section side>
+      <slot name="handle"></slot>
     </q-item-section>
   </q-item>
 </template>

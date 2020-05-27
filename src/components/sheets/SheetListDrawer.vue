@@ -17,7 +17,7 @@
         </q-item>
 
         <q-item clickable :to="{ name: 'myday-page' }">
-          <q-item-section class="text-capitalize">My Day</q-item-section>
+          <q-item-section class="text-capitalize">Today</q-item-section>
           <q-item-section avatar>
             <q-icon flat name="wb_sunny"/>
           </q-item-section>
