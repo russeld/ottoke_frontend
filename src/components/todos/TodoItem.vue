@@ -1,7 +1,7 @@
 <template>
   <q-item
     :clickable="clickable"
-    :class="{'bg-light-green-2': activeTodo.id === todo.id}"
+    :class="{'bg-cyan-1': activeTodo && activeTodo.id === todo.id}"
     ripple
     class="q-pa-sm text-weight-medium"
     @click="onClick">
