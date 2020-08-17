@@ -20,16 +20,17 @@
         <q-card-section class="q-pa-none">
           <q-list separator flat>
             <q-item>
-              <q-item-section side @click="$refs.qDateProxy.show()">
-                <q-icon name="calendar_today" size="sm">
+              <q-item-section side @click="onClickOpenDatePicker" class="flex">
+                <q-icon name="calendar_today" size="sm" class="cursor-pointer">
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                     <q-date v-model.trim="date" @input="() => updateDueDate()" square mask="YYYY-MM-DD"/>
                   </q-popup-proxy>
                 </q-icon>
               </q-item-section>
-              <q-item-section v-if="!todo.due_date" @click="$refs.qDateProxy.show()">Set Due Date</q-item-section>
+              <q-item-section v-if="!todo.due_date" @click="onClickOpenDatePicker" class="cursor-pointer">Set Due Date</q-item-section>
               <q-item-section
                 v-else-if="!todo.status"
+                class="cursor-pointer"
                 :class="{'text-primary': (!todo.is_overdue && !todo.status), 'text-warning': (todo.is_overdue && !todo.status)}">
                   {{ todo.is_overdue ? 'Overdue since' : 'Due on' }} {{ formatDueDate() }}
               </q-item-section>
@@ -37,7 +38,7 @@
                   Due {{ formatDueDate() }}
               </q-item-section>
               <q-item-section v-if="todo.due_date" side>
-                <q-icon name="close" color="negative" size="xs" @click="removeDueDate"/>
+                <q-icon name="close" color="negative" size="xs" @click="removeDueDate" class="cursor-pointer"/>
               </q-item-section>
             </q-item>
             <q-item :clickable="!todo.is_myday" @click="onClickAddToMyDay">
@@ -48,7 +49,7 @@
                 {{ todo.is_myday ? "Added to My Day" : "Add to My Day" }}
               </q-item-section>
               <q-item-section v-if="todo.is_myday" side>
-                <q-icon name="close" color="negative" size="xs" @click="clickRemoveFromMyDay"/>
+                <q-icon name="close" color="negative" size="xs" @click="clickRemoveFromMyDay" class="cursor-pointer"/>
               </q-item-section>
             </q-item>
           </q-list>
@@ -177,6 +178,9 @@ export default {
     clickRemoveFromMyDay () {
       const todo = { ...this.todo, my_day: null }
       this.updateTodo(todo)
+    },
+    onClickOpenDatePicker () {
+      this.$refs.qDateProxy.show()
     }
   },
 
