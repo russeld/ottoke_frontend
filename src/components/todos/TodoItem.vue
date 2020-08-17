@@ -1,12 +1,15 @@
 <template>
-  <q-item :clickable="clickable" ripple class="q-pa-sm text-weight-medium bg-white" @click="onClick">
+  <q-item
+    :clickable="clickable"
+    :class="{'bg-light-green-2': activeTodo.id === todo.id}"
+    ripple
+    class="q-pa-sm text-weight-medium"
+    @click="onClick">
     <q-item-section side>
-      <q-checkbox v-model="val" :val="todo.id" color="green" @input="updateInput" />
+      <q-checkbox v-model="val" :val="todo.id" color="green" @input="updateInput"/>
     </q-item-section>
-
     <q-item-section>
       <q-item-label :class="{ 'text-strike': todo.status }">{{ todo.title }}</q-item-label>
-
       <q-item-label caption class="flex content-center q-gutter-x-sm">
         <span class="text-info" v-if="showSheetName">
           <q-icon name="list" />
@@ -36,7 +39,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import moment from 'moment'
 
 export default {
@@ -64,7 +67,10 @@ export default {
   computed: {
     showSheetName () {
       return this.$route.name === 'myday-page'
-    }
+    },
+    ...mapState({
+      activeTodo: s => s.client.todo
+    })
   },
 
   watch: {
@@ -80,7 +86,11 @@ export default {
     }),
     updateInput () {
       const todo = { ...this.todo, status: this.val ? 1 : 0, priority: 0 }
-      this.updateTodo(todo)
+      this.updateTodo(todo).then(() => {
+        if (todo.status) {
+          this.$store.commit('client/setTodo', null)
+        }
+      })
     },
     onClick () {
       this.$store.commit('client/setTodo', this.todo)
