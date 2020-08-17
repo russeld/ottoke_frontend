@@ -6,8 +6,8 @@
       class="task-list"
       v-if="ongoing.length > 0"
       handle=".handle"
-      @change="moveCallback">
-      <todo-item v-for="task in ongoing" :key="task.id" :todo="task">
+      @change="onChange">
+      <todo-item v-for="task in tasks" :key="task.id" :todo="task">
         <template v-slot:handle>
           <q-icon class="fa fa-align-justify handle" name="drag_handle" />
         </template>
@@ -56,6 +56,12 @@ export default {
   watch: {
     ongoing (ongoing) {
       this.tasks = ongoing
+    }
+  },
+
+  methods: {
+    onChange () {
+      this.moveCallback(this.tasks)
     }
   },
 

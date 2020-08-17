@@ -1,6 +1,7 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 let path = require('path')
+const env = require('quasar-dotenv').config()
 
 module.exports = function (ctx) {
   return {
@@ -92,7 +93,9 @@ module.exports = function (ctx) {
           ...cfg.resolve.alias,
           '@': path.resolve(__dirname, './src/')
         }
-      }
+      },
+      
+      env: env
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer

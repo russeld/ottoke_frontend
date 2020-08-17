@@ -73,9 +73,9 @@ export const TodoMixin = {
     onInput (text) {
       this.todo.title = text
     },
-    onMoveCallback (evt) {
+    onMoveCallback (orderedTasks) {
       const payload = {
-        todos: this.tasks.map(t => t.id)
+        todos: orderedTasks.map(t => t.id)
       }
       this.swap(payload)
     }

@@ -1,11 +1,11 @@
 <template>
   <q-page padding>
-    <div v-if="data" class="q-gutter-y-md">
+    <div v-if="sheet" class="q-gutter-y-md">
       <div class="row text-weight-medium text-blue-7 flex align-center justify-between">
         <div class="col-2 flex items-center">
-          <p class="text-h5 q-ma-none">{{ data.name }}</p>
-          <q-popup-edit v-model="data.name" @save="updateSheetName" buttons>
-            <q-input v-model="data.name" dense autofocus>
+          <p class="text-h5 q-ma-none">{{ sheet.name }}</p>
+          <q-popup-edit v-model="sheet.name" @save="updateSheetName" buttons>
+            <q-input v-model="sheet.name" dense autofocus>
               <template v-slot:append>
                 <q-icon name="edit" />
               </template>
@@ -33,9 +33,7 @@ export default {
   name: 'sheet-page',
 
   data () {
-    return {
-      data: null
-    }
+    return { }
   },
 
   mixins: [TodoMixin],

@@ -27,7 +27,6 @@ export default {
         title: null,
         my_day: date.formatDate(Date.now(), 'YYYY-MM-DD')
       },
-      tasks: [],
       borderless: true
     }
   },
