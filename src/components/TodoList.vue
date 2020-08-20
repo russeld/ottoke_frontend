@@ -16,7 +16,9 @@
 
     <q-list bordered :disabled="!completed.length">
       <q-expansion-item
-        expand-icon-toggle
+        ref="completedList"
+        :duration="100"
+        expand-separator
         icon="check"
         label="Completed"
       >
@@ -56,6 +58,14 @@ export default {
   watch: {
     ongoing (ongoing) {
       this.tasks = ongoing
+    },
+    '$route.params.id': {
+      handler: function (id) {
+        this.$refs.completedList.hide()
+        console.log(this.$refs.completedList)
+      },
+      deep: true,
+      immediate: true
     }
   },
 

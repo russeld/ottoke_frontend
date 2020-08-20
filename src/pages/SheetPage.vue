@@ -14,13 +14,13 @@
         </div>
 
         <div class="col-2 flex items-center q-gutter-x-sm justify-end">
-          <q-btn unelevated dense color="negative" size="sm" icon="delete" @click="confirm"/>
+          <q-btn unelevated dense color="negative" size="sm" icon="delete" @click="confirm" />
         </div>
       </div>
 
       <todo-input :text="todo.title" v-on:submit="onSubmit" v-on:input="onInput" />
 
-      <todo-list :completed="completed" :ongoing="ongoing" :moveCallback="onMoveCallback"/>
+      <todo-list :completed="completed" :ongoing="ongoing" :moveCallback="onMoveCallback" />
     </div>
   </q-page>
 </template>
@@ -53,11 +53,6 @@ export default {
       },
       deep: true,
       immediate: true
-    },
-    sheet (sheet) {
-      if (sheet) {
-        this.data = sheet
-      }
     }
   },
 
