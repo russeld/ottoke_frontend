@@ -90,6 +90,8 @@ export default {
         if (todo.status) {
           this.$store.commit('client/setTodo', null)
         }
+      }).then(() => {
+        this.getSheets()
       })
     },
     onClick () {
