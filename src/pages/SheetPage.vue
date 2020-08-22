@@ -87,18 +87,14 @@ export default {
         this.deleteSheet(this.sheet)
       })
     },
-    loadTodos () {
-      const query = { ...this.query, sheet_id: this.sheetId }
-      this.getTodos(query)
-    },
     loadSheet () {
       this.getSheet(this.sheetId)
         .then(() => { this.loadTodos() })
-        .then(() => { this.$store.commit('client/setTodo', null) })
     }
   },
 
   mounted () {
+    this.query = { ...this.query, sheet_id: this.sheetId }
     this.loadSheet()
   }
 }

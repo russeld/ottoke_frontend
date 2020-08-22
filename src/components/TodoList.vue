@@ -58,14 +58,6 @@ export default {
   watch: {
     ongoing (ongoing) {
       this.tasks = ongoing
-    },
-    '$route.params.id': {
-      handler: function (id) {
-        this.$refs.completedList.hide()
-        console.log(this.$refs.completedList)
-      },
-      deep: true,
-      immediate: true
     }
   },
 

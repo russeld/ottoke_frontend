@@ -27,8 +27,8 @@ export default {
   },
 
   mounted () {
-    this.getTodos(this.query)
-      .then(() => { this.$store.commit('client/setTodo', null) })
+    this.query = {}
+    this.loadTodos()
   }
 }
 </script>

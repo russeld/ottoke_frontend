@@ -68,17 +68,13 @@ export default {
     },
     onInput (text) {
       this.todo.title = text
-    },
-    loadTodos () {
-      const query = {
-        my_day: date.formatDate(Date.now(), 'YYYY-MM-DD')
-      }
-      this.getTodos(query)
-        .then(() => { this.$store.commit('client/setTodo', null) })
     }
   },
 
   mounted () {
+    this.query = {
+      my_day: date.formatDate(Date.now(), 'YYYY-MM-DD')
+    }
     this.loadTodos()
   }
 }

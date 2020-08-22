@@ -67,7 +67,7 @@ export const TodoMixin = {
       }
 
       this.createTodo(this.todo)
-        .then(response => { this.todo.title = '' })
+        .then(() => { this.todo.title = '' })
         .then(() => this.getSheets())
     },
     onInput (text) {
@@ -78,6 +78,15 @@ export const TodoMixin = {
         todos: orderedTasks.map(t => t.id)
       }
       this.swap(payload)
+    },
+    loadTodos () {
+      this.$store.commit('client/setTodos', [])
+      this.$store.commit('client/setTodo', null)
+      this.$q.loading.show({
+        delay: 400
+      })
+      this.getTodos(this.query)
+        .then(() => { this.$q.loading.hide() })
     }
   }
 }
