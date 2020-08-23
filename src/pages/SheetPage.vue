@@ -88,13 +88,13 @@ export default {
       })
     },
     loadSheet () {
+      this.query = { ...this.query, sheet_id: this.sheetId }
+      this.loadTodos()
       this.getSheet(this.sheetId)
-        .then(() => { this.loadTodos() })
     }
   },
 
   mounted () {
-    this.query = { ...this.query, sheet_id: this.sheetId }
     this.loadSheet()
   }
 }

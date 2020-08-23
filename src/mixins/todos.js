@@ -49,8 +49,10 @@ export const TodoMixin = {
     todos (list) {
       this.tasks = list
     },
-    'query.search' () {
-      this.loadTodos()
+    'query.search' (value) {
+      if (value) {
+        this.loadTodos()
+      }
     }
   },
 
@@ -82,9 +84,7 @@ export const TodoMixin = {
     loadTodos () {
       this.$store.commit('client/setTodos', [])
       this.$store.commit('client/setTodo', null)
-      this.$q.loading.show({
-        delay: 400
-      })
+      this.$q.loading.show()
       this.getTodos(this.query)
         .then(() => { this.$q.loading.hide() })
     }
