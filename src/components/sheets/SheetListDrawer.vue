@@ -46,7 +46,7 @@
             </div>
             <div class="text-capitalize" v-else>
               {{ sheet.name.substring(0, 2) }}
-              <q-badge transparent align="middle" color="blue-10" floating>{{ sheet.ongoing ? sheet.ongoing : '' }}</q-badge>
+              <q-badge transparent align="middle" color="blue-10" floating v-if="sheet.ongoing">{{ sheet.ongoing }}</q-badge>
             </div>
           </q-item-section>
         </q-item>
