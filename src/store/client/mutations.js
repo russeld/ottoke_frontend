@@ -55,3 +55,7 @@ export function updateTodo (state, todo) {
   state.todos.splice(tindex, 1, { ...todo })
   state.todo = todo
 }
+
+export function setTags (state, tags) {
+  state.tags = tags
+}

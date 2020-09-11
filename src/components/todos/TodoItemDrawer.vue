@@ -57,6 +57,22 @@
       </q-card>
 
       <q-card flat square>
+        <q-select
+          square
+          outlined
+          v-model="selectedTags"
+          use-input
+          use-chips
+          multiple
+          input-debounce="0"
+          @new-value="createValue"
+          @input="onUpdateTags"
+          :options="tags"
+          new-value-mode="add-unique"
+        />
+      </q-card>
+
+      <q-card flat square>
         <q-input
           placeholder="Add notes"
           square
@@ -65,7 +81,6 @@
           v-model.trim="notes"
           type="textarea"
           autogrow
-
           @input="updateNotes"
         />
       </q-card>
@@ -93,7 +108,9 @@ export default {
     return {
       isOpen: true,
       notes: null,
-      date: null
+      date: null,
+      selectedTags: [],
+      tagOptions: []
     }
   },
 
@@ -103,16 +120,19 @@ export default {
 
   computed: {
     ...mapState({
-      todo: s => s.client.todo
+      todo: s => s.client.todo,
+      tags: s => s.client.tags
     })
   },
 
   watch: {
     todo: function (todo) {
       this.isOpen = todo !== null
+      this.selectedTags = []
       if (todo) {
         this.date = todo.due_date ? todo.due_date : moment().format('YYYY-MM-DD')
         this.notes = todo.notes
+        this.selectedTags = todo.tags.map(t => t.name)
       }
     }
   },
@@ -124,7 +144,9 @@ export default {
       getSheets: 'client/getSheets',
       getMyDay: 'client/getMyDay',
       removeFromMyDay: 'client/removeFromMyDay',
-      addToMyDay: 'client/addToMyDay'
+      addToMyDay: 'client/addToMyDay',
+      createTag: 'client/createTag',
+      getTags: 'client/getTags'
     }),
     formatTime (time) {
       return moment.utc(time).format('ddd MMMM D, Y')
@@ -181,6 +203,19 @@ export default {
     },
     onClickOpenDatePicker () {
       this.$refs.qDateProxy.show()
+    },
+    onUpdateTags (value) {
+      const todo = { ...this.todo, tags: value }
+      this.updateTodo(todo)
+    },
+    createValue (val, done) {
+      val = val.toUpperCase()
+      if (val.length > 0) {
+        if (!this.tags.includes(val)) {
+          this.createTag(val)
+        }
+        done(val, 'toggle')
+      }
     }
   },
 

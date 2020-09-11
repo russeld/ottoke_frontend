@@ -84,3 +84,21 @@ export async function swap ({ commit, state }, todos) {
   const response = await axios.post('todos/swap', todos)
   return response
 }
+
+export async function syncTodoTags ({ commit, state }, tag) {
+  const response = await axios.post('tags', tag)
+  return response
+}
+
+export async function createTag ({ commit, state }, tag) {
+  var data = {
+    tag
+  }
+  const response = await axios.post(`${state.uuid}/tags`, data)
+  return response
+}
+
+export async function getTags ({ commit, state }) {
+  const response = await axios.get(`${state.uuid}/tags`)
+  commit('setTags', response.data)
+}

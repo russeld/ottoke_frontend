@@ -9,13 +9,12 @@
       <q-checkbox v-model="val" :val="todo.id" color="green" @input="updateInput"/>
     </q-item-section>
     <q-item-section>
-      <q-item-label :class="{ 'text-strike': todo.status }">{{ todo.title }}</q-item-label>
+      <q-item-label :class="{ 'text-strike': todo.status }" class="q-pl-xs">{{ todo.title }}</q-item-label>
       <q-item-label caption class="flex content-center q-gutter-x-sm">
         <span class="text-info" v-if="showSheetName">
           <q-icon name="list" />
         </span>
         <span v-if="showSheetName">{{ todo.sheet_name }}</span>
-
         <span
           v-if="todo.due_date"
           :class="{'text-primary': (!todo.is_overdue && !todo.status), 'text-warning': (todo.is_overdue && !todo.status)}"
@@ -29,7 +28,9 @@
         </span>
         <span v-if="todo.is_myday">My Day</span>
       </q-item-label>
-
+      <q-item-label>
+        <q-chip color="blue" size="xs" v-for="tag in todo.tags" :key="tag.name">{{ tag.name }}</q-chip>
+      </q-item-label>
     </q-item-section>
 
     <q-item-section side>

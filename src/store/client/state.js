@@ -4,6 +4,7 @@ export default function () {
     sheets: [],
     todos: [],
     sheet: null,
-    todo: null
+    todo: null,
+    tags: []
   }
 }

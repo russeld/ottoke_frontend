@@ -12,12 +12,15 @@ export default {
 
   methods: {
     ...mapActions({
-      checkUuid: 'client/checkClientUuid'
+      checkUuid: 'client/checkClientUuid',
+      getTags: 'client/getTags'
     })
   },
 
   created () {
+    // load tags here
     this.checkUuid()
+    this.getTags()
   }
 }
 </script>
