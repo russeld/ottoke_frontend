@@ -4,6 +4,7 @@ import { randomString } from '@/utils/strings'
 
 export async function checkClientUuid ({ commit }) {
   let uuid = LocalStorage.getItem('uuid')
+  const apiKey = LocalStorage.getItem('apiKey')
 
   if (!uuid) {
     uuid = randomString(255)
@@ -15,6 +16,10 @@ export async function checkClientUuid ({ commit }) {
       .catch(err => console.log(err))
   } else {
     commit('setUuid', uuid)
+  }
+
+  if (apiKey) {
+    LocalStorage.set('apiKey', apiKey)
   }
 }
 
@@ -101,4 +106,16 @@ export async function createTag ({ commit, state }, tag) {
 export async function getTags ({ commit, state }) {
   const response = await axios.get(`${state.uuid}/tags`)
   commit('setTags', response.data)
+}
+
+export async function join ({ commit, state }, data) {
+  var payload = { ...data, uuid: state.uuid }
+  const response = await axios.post('auth/join', payload)
+  return response
+}
+
+export async function login ({ commit, state }, data) {
+  var payload = { ...data }
+  const response = await axios.post('auth/login', payload)
+  return response
 }

@@ -21,6 +21,29 @@ const routes = [
         component: () => import('pages/MyDayPage.vue')
       }
     ]
+  },
+  {
+    path: '/',
+    name: 'main',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '/login',
+        name: 'login-page',
+        component: () => import('pages/LoginPage.vue'),
+        meta: {
+          guest: true
+        }
+      },
+      {
+        path: '/join',
+        name: 'join-page',
+        component: () => import('pages/JoinPage.vue'),
+        meta: {
+          guest: true
+        }
+      }
+    ]
   }
 ]
 

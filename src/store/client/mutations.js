@@ -1,3 +1,5 @@
+import { LocalStorage } from 'quasar'
+
 export function setUuid (state, uuid) {
   state.uuid = uuid
 }
@@ -58,4 +60,12 @@ export function updateTodo (state, todo) {
 
 export function setTags (state, tags) {
   state.tags = tags
+}
+
+export function login (state, data) {
+  LocalStorage.set('uuid', data.uuid)
+  LocalStorage.set('api_key', data.api_key)
+
+  state.uuid = data.uuid
+  state.apiKey = data.api_key
 }
