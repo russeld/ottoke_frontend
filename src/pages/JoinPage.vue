@@ -84,6 +84,9 @@ export default {
       this.disabled = true
       this.join(this.form).then((response) => {
         this.disabled = false
+        this.$store.commit('client/login', response.data)
+      }).then(() => {
+        this.$router.push({ name: 'task-page' })
       }).catch(error => {
         this.errors = { ...error.response.data }
         this.disabled = false

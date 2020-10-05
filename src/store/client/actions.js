@@ -4,7 +4,7 @@ import { randomString } from '@/utils/strings'
 
 export async function checkClientUuid ({ commit }) {
   let uuid = LocalStorage.getItem('uuid')
-  const apiKey = LocalStorage.getItem('apiKey')
+  const apiKey = LocalStorage.getItem('api_key')
 
   if (!uuid) {
     uuid = randomString(255)
@@ -19,7 +19,8 @@ export async function checkClientUuid ({ commit }) {
   }
 
   if (apiKey) {
-    LocalStorage.set('apiKey', apiKey)
+    LocalStorage.set('api_key', apiKey)
+    commit('setApiKey', apiKey)
   }
 }
 

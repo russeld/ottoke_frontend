@@ -69,3 +69,8 @@ export function login (state, data) {
   state.uuid = data.uuid
   state.apiKey = data.api_key
 }
+
+export function setApiKey (state, apiKey) {
+  console.log(apiKey)
+  state.apiKey = apiKey
+}
