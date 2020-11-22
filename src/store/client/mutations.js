@@ -71,6 +71,5 @@ export function login (state, data) {
 }
 
 export function setApiKey (state, apiKey) {
-  console.log(apiKey)
   state.apiKey = apiKey
 }
